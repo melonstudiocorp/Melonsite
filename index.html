@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MelonOS WebShell</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="terminal">
+        <div id="output">
+            <p>Welcome! Download .iso? [download/download]</p>
+        </div>
+        <div id="input-line">
+            <span class="prompt">> </span>
+            <input type="text" id="command" autofocus autocomplete="off" />
+        </div>
+    </div>
+
+    <script>
+        const output = document.getElementById("output");
+        const input = document.getElementById("command");
+
+        const commands = {
+            download: () => `Download melon.iso here: <a href="https://github.com/melonstudiocorp/Melon-Kernel/releases/tag/iso" target="_blank">ISO</a>`,
+            help: () => `Available commands: help, clear, about, github, stars`,
+            clear: () => { output.innerHTML = ""; return ""; },
+            about: () => `🍈 MelonOS WebShell — simulation of Rain-Shell in browser.`,
+            github: () => `🔗 Open Source Code: <a href="https://github.com/melonstudiocorp/Melon-Kernel" target="_blank">MelonOS</a>`,
+            stars: () => "✨✨✨\n   ✨ STARFALL ✨\n✨✨✨"
+        };
+
+        function print(text) {
+            if (text) {
+                output.innerHTML += `<div>${text}</div>`;
+            }
+        }
+
+        input.addEventListener("keydown", function(e) {
+            if (e.key === "Enter") {
+                const cmd = input.value.trim();
+                print(`> ${cmd}`);
+                if (commands[cmd]) {
+                    print(commands[cmd]());
+                } else if (cmd) {
+                    print("Unknown command. Type 'help'");
+                }
+                input.value = "";
+                window.scrollTo(0, document.body.scrollHeight);
+            }
+        });
+    </script>
+</body>
+</html>
